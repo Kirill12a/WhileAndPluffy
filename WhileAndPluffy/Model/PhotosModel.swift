@@ -5,8 +5,6 @@
 //  Created by Kirill Drozdov on 04.06.2022.
 //
 
-import Foundation
-
 
 import Foundation
 
@@ -22,7 +20,7 @@ struct PhotoData: Codable {
     let user: User
     let createdAt: Date
     var isFavourite: Bool = false
-
+    
     enum URLType: String {
         case raw
         case full
@@ -30,7 +28,7 @@ struct PhotoData: Codable {
         case small
         case thumb
     }
-
+    
     enum CodingKeys: String, CodingKey {
         case width
         case height

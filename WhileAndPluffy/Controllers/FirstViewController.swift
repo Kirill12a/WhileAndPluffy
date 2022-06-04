@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import LoremSwiftum
 
 
 class FirstViewController: UICollectionViewController {
@@ -13,21 +14,23 @@ class FirstViewController: UICollectionViewController {
     private var nerworkDataManager = NetworkDataManager()
     private var timer: Timer?
     private var photos = [PhotoData]()
-//    private let itemPerRow = CGFloat(2)
-//    private let sectionInsets = UIEdgeInsets(top: 25, left: 25, bottom: 25, right: 25)
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setupNavBar()
+        randomSearch()
         collectionView.backgroundColor = .white
         congfigureCollectionView()
         setUpSearchBar()
-        title = "Photos"
-        //        setUpNavigationController()
+        title = "Лента"
     }
     
     
-    // MARK: SetUp UI
+    
+    private func setupNavBar(){
+        navigationController?.navigationBar.prefersLargeTitles = true
+    }
     
     private func congfigureCollectionView() {
         self.collectionView!.register(PhotosCollectionViewCell.self, forCellWithReuseIdentifier: PhotosCollectionViewCell.reuseID)
@@ -43,37 +46,25 @@ class FirstViewController: UICollectionViewController {
         let searchConroller = UISearchController(searchResultsController: nil)
         searchConroller.searchBar.placeholder = "Search photo"
         searchConroller.obscuresBackgroundDuringPresentation = false
-        //        searchConroller.searchResultsUpdater = self
         searchConroller.searchBar.delegate = self
         navigationItem.hidesSearchBarWhenScrolling = false
         self.navigationItem.searchController = searchConroller
     }
     
-    //    private func setUpNavigationController() {
-    //        let navigationApearance = UINavigationBarAppearance()
-    //        navigationApearance.configureWithOpaqueBackground()
-    //        navigationApearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-    //        navigationApearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-    //
-    //        navigationApearance.backgroundColor = UIColor(
-    //            red: 21/255,
-    //            green: 101/255,
-    //            blue: 191/255,
-    //            alpha: 194/255
-    //        )
-    //
-    //        navigationController?.navigationBar.standardAppearance = navigationApearance
-    //        navigationController?.navigationBar.scrollEdgeAppearance = navigationApearance
-    //        navigationController?.navigationBar.tintColor = .white
-    //    }
+    private func randomSearch(){
+        self.nerworkDataManager.fetchImages(searchKeyWord: Lorem.words(10)) { [weak self] data in
+            guard let data = data else { return }
+            self?.photos = data.results
+            DispatchQueue.main.async {
+                self?.collectionView.reloadData()
+            }
+        }
+    }
     
-    
-    // MARK: UICollectionViewDataSource
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
-    
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return photos.count
@@ -93,12 +84,10 @@ class FirstViewController: UICollectionViewController {
         detailVC.photo = imageData
         navigationController?.pushViewController(detailVC, animated: true)
     }
-    
 }
 
 
 // MARK: UISearchBarDelegate
-
 extension FirstViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -115,34 +104,10 @@ extension FirstViewController: UISearchBarDelegate {
     }
 }
 
-// MARK: UICollectionViewDelegateFlowLayout
-//
-//extension FirstViewController: UICollectionViewDelegateFlowLayout {
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        let photo = photos[indexPath.item]
-//        let paddingSpace = sectionInsets.left * (itemPerRow + 1)
-//        let availableWidth = view.frame.width - paddingSpace
-//        let widthPerItem = availableWidth / itemPerRow
-//        let height = CGFloat(photo.height) * widthPerItem / CGFloat(photo.width)
-//        return CGSize(width: widthPerItem, height: height)
-//
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-//        return sectionInsets
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-//        return sectionInsets.right
-//    }
-//}
 
 extension FirstViewController: WaterfallLayoutDelegate {
-    func waterfallLayout(_ layout: WaterfallLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
+    func waterfallLayout(_ layout: WaterfallLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {        
         let photo = photos[indexPath.item]
-        //        print("photo.width: \(photo.width) photo.height: \(photo.height)\n")
         return CGSize(width: photo.width, height: photo.height)
     }
 }

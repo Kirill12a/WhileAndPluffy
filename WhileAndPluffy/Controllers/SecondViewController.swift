@@ -15,9 +15,12 @@ class SecondTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = .white
         loadPhotos()
         setUpTableView()
+
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -32,7 +35,7 @@ class SecondTableViewController: UITableViewController {
     private func setUpTableView() {
         tableView.register(PhotoTableViewCell.self, forCellReuseIdentifier: "Cell")
         tableView.separatorInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
-        title = "Your favourite photos"
+        title = "Понравилось"
     }
     
     

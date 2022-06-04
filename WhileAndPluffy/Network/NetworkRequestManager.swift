@@ -15,12 +15,11 @@ class NetworkRequestManager {
         let url = self.generateUrl(parameters: parameters)
         var request = URLRequest(url: url)
         request.allHTTPHeaderFields = generateHeaders()
-        request.httpMethod = "get"
+        request.httpMethod = "GET"
         let dataTask = makeDataTask(from: request, completion: completion)
         dataTask.resume()
     }
 
-    // MARK: Private methods with settings for url request
 
     private func makeDataTask(from request: URLRequest, completion: @escaping (Data?, Error?) -> Void) -> URLSessionDataTask {
         return URLSession.shared.dataTask(with: request) { data, response, error in
@@ -41,7 +40,6 @@ class NetworkRequestManager {
         parameters["query"] = searchKeyWord
         parameters["page"] = String(1)
         parameters["per_page"] = String(45)
-//        parameters["client_id"] = "J_PW-ZivB6q24i-CwFA1DU0W_k2D0m-E82Rd5jAsHQo" // one more way to add APIKey in request
         return parameters
     }
 

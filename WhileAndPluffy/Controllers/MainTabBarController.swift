@@ -11,15 +11,16 @@ class MainTabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+
         let firstViewController = FirstViewController(collectionViewLayout: WaterfallLayout())
         let secondViewConroller = SecondTableViewController()
         
         viewControllers = [
-            setUpNavigationController(title: "Photos",
+            setUpNavigationController(title: "Лента",
                                       image: UIImage(systemName: "photo.on.rectangle.angled"),
                                       rootViewController: firstViewController),
-            setUpNavigationController(title: "Favourites",
+            setUpNavigationController(title: "Понравилось",
                                       image: UIImage(systemName: "heart.fill"),
                                       rootViewController: secondViewConroller)
         ]
@@ -30,6 +31,10 @@ class MainTabBarController: UITabBarController {
         navigationViewController.tabBarItem.image = image
         navigationViewController.tabBarItem.title = title
         return navigationViewController
+    }
+
+    private func navigationControllerPreference(){
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
 }
 

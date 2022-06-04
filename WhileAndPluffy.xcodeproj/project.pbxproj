@@ -26,6 +26,8 @@
 		D2687B08284B917600C6FA3D /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2687B02284B917600C6FA3D /* MainTabBarController.swift */; };
 		D2687B09284B917600C6FA3D /* FavouritePhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2687B03284B917600C6FA3D /* FavouritePhotoViewController.swift */; };
 		D2687B0A284B917600C6FA3D /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2687B04284B917600C6FA3D /* FirstViewController.swift */; };
+		D2687B0F284BAAF800C6FA3D /* LoremSwiftum in Frameworks */ = {isa = PBXBuildFile; productRef = D2687B0E284BAAF800C6FA3D /* LoremSwiftum */; };
+		D2687B12284BB78D00C6FA3D /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2687B11284BB78D00C6FA3D /* Alert.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +49,7 @@
 		D2687B02284B917600C6FA3D /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		D2687B03284B917600C6FA3D /* FavouritePhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavouritePhotoViewController.swift; sourceTree = "<group>"; };
 		D2687B04284B917600C6FA3D /* FirstViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
+		D2687B11284BB78D00C6FA3D /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +59,7 @@
 			files = (
 				D2687AE9284B891D00C6FA3D /* SDWebImage in Frameworks */,
 				D2687AE3284B829E00C6FA3D /* RealmSwift in Frameworks */,
+				D2687B0F284BAAF800C6FA3D /* LoremSwiftum in Frameworks */,
 				D2687AE1284B829E00C6FA3D /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -124,11 +128,12 @@
 			isa = PBXGroup;
 			children = (
 				D2687B00284B917600C6FA3D /* DetailViewController.swift */,
+				D2687B10284BB76700C6FA3D /* AlertDetailViewController */,
 				D2687B03284B917600C6FA3D /* FavouritePhotoViewController.swift */,
 				D2687B04284B917600C6FA3D /* FirstViewController.swift */,
 				D2687B02284B917600C6FA3D /* MainTabBarController.swift */,
 				D2687AFF284B917600C6FA3D /* SecondViewController.swift */,
-				D2687B01284B917600C6FA3D /* WaterFallLayout.swift */,
+				D2687B0C284BA27600C6FA3D /* MainCellLayout */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -141,6 +146,22 @@
 				D2687ACB284B704000C6FA3D /* AppDelegate.swift */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D2687B0C284BA27600C6FA3D /* MainCellLayout */ = {
+			isa = PBXGroup;
+			children = (
+				D2687B01284B917600C6FA3D /* WaterFallLayout.swift */,
+			);
+			path = MainCellLayout;
+			sourceTree = "<group>";
+		};
+		D2687B10284BB76700C6FA3D /* AlertDetailViewController */ = {
+			isa = PBXGroup;
+			children = (
+				D2687B11284BB78D00C6FA3D /* Alert.swift */,
+			);
+			path = AlertDetailViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -163,6 +184,7 @@
 				D2687AE0284B829E00C6FA3D /* Realm */,
 				D2687AE2284B829E00C6FA3D /* RealmSwift */,
 				D2687AE8284B891D00C6FA3D /* SDWebImage */,
+				D2687B0E284BAAF800C6FA3D /* LoremSwiftum */,
 			);
 			productName = WhileAndPluffy;
 			productReference = D2687AC8284B704000C6FA3D /* WhileAndPluffy.app */;
@@ -195,6 +217,7 @@
 			packageReferences = (
 				D2687ADF284B829E00C6FA3D /* XCRemoteSwiftPackageReference "realm-swift" */,
 				D2687AE7284B891C00C6FA3D /* XCRemoteSwiftPackageReference "SDWebImage" */,
+				D2687B0D284BAAF800C6FA3D /* XCRemoteSwiftPackageReference "LoremSwiftum" */,
 			);
 			productRefGroup = D2687AC9284B704000C6FA3D /* Products */;
 			projectDirPath = "";
@@ -225,6 +248,7 @@
 				D2687B0A284B917600C6FA3D /* FirstViewController.swift in Sources */,
 				D2687B07284B917600C6FA3D /* WaterFallLayout.swift in Sources */,
 				D2687B06284B917600C6FA3D /* DetailViewController.swift in Sources */,
+				D2687B12284BB78D00C6FA3D /* Alert.swift in Sources */,
 				D2687AF8284B912900C6FA3D /* FavouritePhoto.swift in Sources */,
 				D2687AF3284B90AF00C6FA3D /* NetworkDataManager.swift in Sources */,
 				D2687AF1284B909D00C6FA3D /* NetworkRequestManager.swift in Sources */,
@@ -461,6 +485,14 @@
 				kind = branch;
 			};
 		};
+		D2687B0D284BAAF800C6FA3D /* XCRemoteSwiftPackageReference "LoremSwiftum" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/lukaskubanek/LoremSwiftum.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -478,6 +510,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D2687AE7284B891C00C6FA3D /* XCRemoteSwiftPackageReference "SDWebImage" */;
 			productName = SDWebImage;
+		};
+		D2687B0E284BAAF800C6FA3D /* LoremSwiftum */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D2687B0D284BAAF800C6FA3D /* XCRemoteSwiftPackageReference "LoremSwiftum" */;
+			productName = LoremSwiftum;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

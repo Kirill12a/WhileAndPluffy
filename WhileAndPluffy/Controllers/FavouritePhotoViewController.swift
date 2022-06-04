@@ -14,12 +14,12 @@ class FavouritePhotoViewController: UIViewController {
         didSet {
             guard let photoURL = URL(string: photo.photoUrl) else {return}
             imageView.sd_setImage(with: photoURL, completed: nil)
-            usernameLabel.text = "By: \(photo.userName)"
-            createdAtLabel.text = "created at: \(photo.createdAT)"
+            usernameLabel.text = "Создатель: \(photo.userName)"
+            createdAtLabel.text = "Дата: \(photo.createdAT)"
         }
     }
     
-    private var imageView: UIImageView = {
+    lazy private var imageView: UIImageView = {
         let photo = UIImageView()
         photo.translatesAutoresizingMaskIntoConstraints = false
         photo.backgroundColor = .white
@@ -27,7 +27,7 @@ class FavouritePhotoViewController: UIViewController {
         return photo
     }()
     
-    private var createdAtLabel: UILabel = {
+    lazy private var createdAtLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont(name: "Apple SD Gothic Neo", size: 17)
@@ -36,7 +36,7 @@ class FavouritePhotoViewController: UIViewController {
         return label
     }()
     
-    private var usernameLabel: UILabel = {
+    lazy private var usernameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont(name: "Apple SD Gothic Neo", size: 17)
@@ -45,41 +45,34 @@ class FavouritePhotoViewController: UIViewController {
         return label
     }()
 
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        setUPImageView()
-        setUpCreatedAtLabel()
-        setUpUsernameLabel()
+        setUPViewElements()
     }
 
+    func setUPViewElements(){
+        [imageView, usernameLabel, createdAtLabel].forEach(view.addSubview(_:))
 
-    // MARK: UI Configuration methods
-    private func setUPImageView() {
-        view.addSubview(imageView)
-        imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
-        imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        imageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 2/3).isActive = true
-        
+        NSLayoutConstraint.activate([
+            imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            imageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 2/3)
+        ])
+
+        NSLayoutConstraint.activate([
+            usernameLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: 16),
+            usernameLabel.widthAnchor.constraint(greaterThanOrEqualTo: imageView.widthAnchor, multiplier: 1/3),
+            usernameLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 5),
+            usernameLabel.heightAnchor.constraint(equalToConstant: 25),
+        ])
+
+        NSLayoutConstraint.activate([
+            createdAtLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 5),
+            createdAtLabel.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -15),
+            createdAtLabel.widthAnchor.constraint(greaterThanOrEqualTo: imageView.widthAnchor, multiplier: 1/3),
+            createdAtLabel.heightAnchor.constraint(equalToConstant: 25),
+        ])
     }
-    
-    private func setUpUsernameLabel(){
-        view.addSubview(usernameLabel)
-        usernameLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: 16).isActive = true
-        usernameLabel.widthAnchor.constraint(greaterThanOrEqualTo: imageView.widthAnchor, multiplier: 1/3).isActive = true
-        usernameLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 15).isActive = true
-        usernameLabel.heightAnchor.constraint(equalToConstant: 25).isActive = true
-    }
-    
-    private func setUpCreatedAtLabel() {
-        view.addSubview(createdAtLabel)
-        createdAtLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 15).isActive = true
-        createdAtLabel.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -15).isActive = true
-        createdAtLabel.widthAnchor.constraint(greaterThanOrEqualTo: imageView.widthAnchor, multiplier: 1/3).isActive = true
-        createdAtLabel.heightAnchor.constraint(equalToConstant: 25).isActive = true
-    }
-    
 }

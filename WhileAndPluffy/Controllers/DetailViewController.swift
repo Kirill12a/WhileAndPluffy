@@ -25,12 +25,12 @@ class DetailViewController: UIViewController {
             let photoUrl = photo.urls["regular"]
             guard let imageURL = photoUrl, let url = URL(string: imageURL) else { return }
             imageView.sd_setImage(with: url, completed: nil)
-            usernameLabel.text = "By: \(photo.user.username)"
-            createdAtLabel.text = "created at: \(dateFormatter.string(from: photo.createdAt))"
+            usernameLabel.text = "Создатель: \(photo.user.username)"
+            createdAtLabel.text = "Дата \(dateFormatter.string(from: photo.createdAt))"
         }
     }
     
-    private var imageView: UIImageView = {
+    lazy private var imageView: UIImageView = {
         let photo = UIImageView()
         photo.translatesAutoresizingMaskIntoConstraints = false
         photo.backgroundColor = .white
@@ -38,7 +38,7 @@ class DetailViewController: UIViewController {
         return photo
     }()
     
-    private var createdAtLabel: UILabel = {
+    lazy private var createdAtLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont(name: "Apple SD Gothic Neo", size: 17)
@@ -47,7 +47,7 @@ class DetailViewController: UIViewController {
         return label
     }()
     
-    private var usernameLabel: UILabel = {
+    lazy private var usernameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont(name: "Apple SD Gothic Neo", size: 17)
@@ -56,7 +56,7 @@ class DetailViewController: UIViewController {
         return label
     }()
     
-    private var likeButton: UIButton = {
+    lazy var likeButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.tintColor = .systemBlue
@@ -67,10 +67,7 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        setUPImageView()
-        setUpCreatedAtLabel()
-        setUpButton()
-        setUpUsernameLabel()
+        setUPViewElements()
         updateButtonImage()
     }
     
@@ -82,6 +79,7 @@ class DetailViewController: UIViewController {
         favouritePhoto.createdAT = dateFormatter.string(from: photo.createdAt)
         favouritePhoto.photoUrl = photo.urls["regular"]!
         favouritePhoto.isFavourite = photo.isFavourite
+        //        navigationController?.popViewController(animated: true)
         if photo.isFavourite {
             saveObject(photo: favouritePhoto)
         } else {
@@ -90,7 +88,6 @@ class DetailViewController: UIViewController {
     }
     
     // MARK: RealmMethods
-    
     private func saveObject(photo: FavouritePhoto) {
         do {
             try self.realm.write({
@@ -115,73 +112,37 @@ class DetailViewController: UIViewController {
             presentUnsuccsessDeleteAlert()
         }
     }
-    
-    // MARK: Allert Methods
-    private func presentSuccessSaveAlert() {
-        let allertController = UIAlertController(title: "Photo was saved", message: "Your photo has been succesfully saved", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
-        allertController.addAction(okAction)
-        present(allertController, animated: true, completion: nil)
-    }
-    
-    private func presentUnsuccsessSaveAlert() {
-        let allertController = UIAlertController(title: "Photo was not saved", message: "Something went wrong", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
-        allertController.addAction(okAction)
-        present(allertController, animated: true, completion: nil)
-    }
-    
-    private func presentSuccessDeleteAlert() {
-        let allertController = UIAlertController(title: "Photo was deleted", message: "Your photo has been succesfully deleted", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
-        allertController.addAction(okAction)
-        present(allertController, animated: true, completion: nil)
-    }
-    
-    private func presentUnsuccsessDeleteAlert() {
-        let allertController = UIAlertController(title: "Photo was not deleted", message: "Something went wrong", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
-        allertController.addAction(okAction)
-        present(allertController, animated: true, completion: nil)
-    }
-    
-    // MARK: UI Configuration methods
-    private func setUPImageView() {
-        view.addSubview(imageView)
-        imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
-        imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        imageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 2/3).isActive = true
-        
-    }
-    
-    private func setUpUsernameLabel(){
-        view.addSubview(usernameLabel)
-        usernameLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: 16).isActive = true
-        usernameLabel.widthAnchor.constraint(greaterThanOrEqualTo: imageView.widthAnchor, multiplier: 1/3).isActive = true
-        usernameLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 15).isActive = true
-        usernameLabel.heightAnchor.constraint(equalToConstant: 25).isActive = true
-    }
-    
-    private func setUpCreatedAtLabel() {
-        view.addSubview(createdAtLabel)
-        createdAtLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 15).isActive = true
-        createdAtLabel.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -15).isActive = true
-        createdAtLabel.widthAnchor.constraint(greaterThanOrEqualTo: imageView.widthAnchor, multiplier: 1/3).isActive = true
-        createdAtLabel.heightAnchor.constraint(equalToConstant: 25).isActive = true
-    }
-    
-    private func setUpButton() {
-        view.addSubview(likeButton)
-        likeButton.widthAnchor.constraint(equalToConstant: 45).isActive = true
-        likeButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        likeButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        likeButton.topAnchor.constraint(equalTo: createdAtLabel.bottomAnchor, constant: 15).isActive = true
-    }
-    
-    private func updateButtonImage(){
-        let imageName = photo.isFavourite ? "heart.fill" : "heart"
-        let buttonImage = UIImage(systemName: imageName)
-        likeButton.setBackgroundImage(buttonImage, for: .normal)
+
+
+    private func setUPViewElements(){
+        [imageView, usernameLabel, createdAtLabel, likeButton].forEach(view.addSubview(_:))
+
+        NSLayoutConstraint.activate([
+            imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            imageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 2/3)
+        ])
+
+        NSLayoutConstraint.activate([
+            usernameLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: 16),
+            usernameLabel.widthAnchor.constraint(greaterThanOrEqualTo: imageView.widthAnchor, multiplier: 1/3),
+            usernameLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 5),
+            usernameLabel.heightAnchor.constraint(equalToConstant: 25),
+        ])
+
+        NSLayoutConstraint.activate([
+            createdAtLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 5),
+            createdAtLabel.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -15),
+            createdAtLabel.widthAnchor.constraint(greaterThanOrEqualTo: imageView.widthAnchor, multiplier: 1/3),
+            createdAtLabel.heightAnchor.constraint(equalToConstant: 25),
+        ])
+
+        NSLayoutConstraint.activate([
+            likeButton.widthAnchor.constraint(equalToConstant: 45),
+            likeButton.heightAnchor.constraint(equalToConstant: 40),
+            likeButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            likeButton.topAnchor.constraint(equalTo: createdAtLabel.bottomAnchor, constant: 5),
+        ])
     }
 }
